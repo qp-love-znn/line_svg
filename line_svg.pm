@@ -56,7 +56,8 @@ sub read_conf{
 	close IN;
 	if($type eq "circ_gene"){
 		&circ_gene(\%conf_hash,$out);
-	}
+	} elsif($type eq "snp"){
+		&snp(\%conf_hash,$out)
 }
 
 sub circ_gene{
