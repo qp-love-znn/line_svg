@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 our @ISA = qw(Exporter);
-our @EXPORT = qw(set_file_tpye get_file_tpye get_gene_posit get_gene_seq get_gene_start_cds);
+our @EXPORT = qw(set_file_tpye get_file_tpye get_gene_posit get_gene_seq get_gene_start_cds get_2k_seq get_line_seq get_target_pos);
 our @version = 1.0;
 
 #sub get_gene_posit: get the gene position according to the gtf->my (%genes_posit) = $self->get_gene_posit($gtf)
