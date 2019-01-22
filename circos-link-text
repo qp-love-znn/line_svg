@@ -1,0 +1,261 @@
+###circos.conf###
+karyotype = ./circos/karyotype.txt
+chromosomes_order_by_karyotype = yes
+chromosomes_units              = 100000
+chromosomes_display_default    = yes
+#chromosomes = /chr/;/aa/;/cc/
+<<include ./circos/ideogram.conf>>
+
+<plots>
+<plot>
+
+type          = text
+color         = black
+label_font    = condensed
+file          = ./circos/2.text.txt
+r0            = 0.95r
+r1            = 0.95r + 300p
+label_size    = 25p
+label_parallel = no
+label_rotate = yes
+label_snuggle = yes
+
+#max_snuggle_distance            = 2r
+#snuggle_sampling                = 2
+
+#snuggle_tolerance               = 0.25r
+
+#snuggle_link_overlap_test      = yes 
+#snuggle_link_overlap_tolerance = 2p
+
+#snuggle_refine                 = yes
+
+#padding  = 2p
+#rpadding = 0.1r
+
+show_links = yes
+link_dims = 100p,100p
+link_thickness = 2p
+link_color = black
+
+</plot>
+</plots>
+
+<links>
+<link>
+file          =  ./circos/links_color.txt
+radius     = 0.95r
+bezier_radius = 0.95r
+thickness     = 2
+</link>
+</links>
+
+
+
+
+<image>
+<<include etc/image.conf>>
+</image>
+<<include etc/colors_fonts_patterns.conf>>
+<<include etc/housekeeping.conf>>
+
+##karyotype.txt##(7列：chr - 表格中chr名 图中的染色体名 0 染色体长度 染色体颜色)
+chr - athChr1 athChr1 0 30427671 chr14
+chr - athChr2 athChr2 0 19698289 chr15
+chr - athChr3 athChr3 0 23459830 chr17
+chr - athChr4 athChr4 0 18585056 chr16
+chr - athChr5 athChr5 0 26975502 chr18
+chr - athChrC athChrC 0 154478 acen
+chr - athChrM athChrM 0 366924 stalk
+chr - Chr1 Chr1 0 34083085 chr1
+chr - Chr2 Chr2 0 34414252 chr2
+chr - Chr3 Chr3 0 28939167 chr3
+chr - Chr4 Chr4 0 24315960 chr4
+chr - Chr5 Chr5 0 33714806 chr5
+chr - Chr6 Chr6 0 27018480 chr6
+chr - Chr7 Chr7 0 31477646 chr7
+chr - Chr8 Chr8 0 26149438 chr8
+chr - Chr9 Chr9 0 34986854 chr10
+chr - Chr10 Chr10 0 28419553 chr11
+chr - Chr11 Chr11 0 27106780 chr12
+chr - Chr0 Chr0 0 24621398 chr13
+
+##2.text.txt##(4列：chr\tstart\tend\tgene)
+Chr0 22770507 22772064 Cla000585
+Chr10 3877349 3878903 Cla001151
+Chr7 1402121 1405504 Cla002283
+Chr7 14283717 14284595 Cla002302
+Chr7 3599579 3603867 Cla004005
+Chr9 31842963 31843879 Cla004654
+Chr7 6465072 6468077 Cla007292
+Chr3 19338706 19340339 Cla007329
+Chr3 1367049 1368744 Cla008235
+Chr1 22982033 22986303 Cla009129
+Chr5 31317664 31318623 Cla010196
+Chr9 30284826 30285713 Cla010321
+Chr1 3163654 3165821 Cla011507
+Chr7 10179192 10182142 Cla011784
+Chr7 26287729 26287977 Cla012766
+Chr2 30440741 30442464 Cla013314
+Chr2 27947266 27948753 Cla013569
+Chr2 3010444 3012125 Cla015727
+Chr2 3407355 3408518 Cla015774
+Chr2 3414392 3416472 Cla015775
+Chr2 3420622 3423407 Cla015776
+Chr2 3426893 3428417 Cla015777
+Chr2 3433093 3434569 Cla015778
+Chr2 3442521 3445272 Cla015779
+Chr2 3451429 3454097 Cla015780
+Chr2 3458498 3462394 Cla015781
+Chr9 14488710 14492600 Cla016098
+Chr9 13292123 13295313 Cla016139
+Chr11 21136185 21137129 Cla016421
+Chr4 19743348 19744804 Cla018205
+Chr4 21024486 21029418 Cla018340
+Chr4 23629278 23631786 Cla018599
+Chr6 25126461 25127365 Cla019104
+Chr5 355849 356848 Cla021091
+Chr8 23350764 23353217 Cla022406
+athChr1 26142034 26143051  ATEXPA1
+athChr5 1568752 1569712  ATEXPA2
+athChr2 15788077 15789812  ATEXPA3
+athChr2 16544246 16545434  ATEXPA4
+athChr3 11011538 11013068  ATEXPA5
+athChr2 12431840 12433482  ATEXPA6
+athChr1 4276557 4277693  ATEXPA7
+athChr2 16949121 16950472  ATEXPA8
+athChr5 463224 464840  ATEXPA9
+athChr1 9259805 9260792  ATEXPA10
+athChr1 6998762 6999710  ATEXPA11
+athChr3 5190649 5191982  ATEXPA12
+athChr3 742655 743975  ATEXPA13
+athChr5 22808854 22809906  ATEXPA14
+athChr2 917361 918554  ATEXPA15
+athChr3 20575073 20576102  ATEXPA16
+athChr4 700653 701527  ATEXPA17
+athChr1 23331728 23332934  ATEXPA18
+athChr4 17922975 17923821  ATEXPA20
+athChr5 15726479 15727416  ATEXPA21
+athChr5 15729118 15730150  ATEXPA22
+athChr5 15730713 15731706  ATEXPA23
+athChr5 15739280 15740514  ATEXPA24
+athChr5 15737427 15738387  ATEXPA25
+athChr5 15735871 15736908  ATEXP26
+athChr2 8941185 8942430  ATEXPB1
+athChr1 24427266 24428399  ATEXPB2
+athChr4 14000446 14001945  ATEXPB3
+athChr2 18599575 18601237  ATEXPB4
+athChr3 22391247 22392463  ATEXPB5
+athChr3 16896238 16897189  ATEXLA1
+athChr4 17978675 17979665  ATEXLA2
+athChr3 16893058 16893789  ATEXLA3
+athChr4 9581817 9583181  ATEXLB1
+
+##ideogram.conf##
+<ideogram>
+show_bands = yes
+fill_bands = yes
+band_transparency = 1
+
+<spacing>
+default = 0.005r
+</spacing>
+
+radius           = 0.80r
+thickness        = 50p
+fill             = yes
+
+stroke_color     = dgrey
+stroke_thickness = 1p
+
+show_label       = yes
+label_font       = default
+#label_radius     = (dims(ideogram,radius_inner)+dims(ideogram,radius_outer))/2 - 25
+label_radius     = 1.05r
+label_size       = 36p
+label_parallel   = yes
+</ideogram>
+
+##links_color.txt()
+Chr1	862450	4006258	athChr4	6431236	7439805	color=red
+Chr1	1025939	4125648	athChr2	18577650	19262404	color=red
+Chr1	1153074	3973507	athChr1	23136369	24048622	color=red
+Chr1	1327756	3914228	athChr4	11860444	12533842	color=red
+Chr1	2721957	3467581	athChr5	20956567	21230254	color=red
+Chr1	2761468	3967979	athChr1	4089847	4365331	color=red
+Chr1	21909279	23493450	athChr5	14534613	14971312	color=red
+Chr1	22670840	23594463	athChr1	24436901	24739353	color=red
+Chr10	2545101	3909542	athChr2	18495341	18801383	color=red
+Chr10	3210667	3878903	athChr1	23132045	23333110	color=red
+Chr10	3220282	3917423	athChr4	11839160	12009518	color=red
+Chr10	3273278	3922254	athChr1	4095246	4270787	color=red
+Chr10	3765869	4414962	athChr1	4123530	4353685	color=red
+Chr10	3770060	4009998	athChr4	7044244	7212992	color=red
+Chr11	21093021	21331627	athChr2	16910364	17034600	color=red
+Chr11	21093021	21335922	athChr3	20870000	20934540	color=red
+Chr2	2851927	5451090	athChr4	16422166	16842077	color=red
+Chr2	2851927	7734051	athChr2	6182193	7558038	color=red
+Chr2	2857065	5080142	athChr4	17896292	18288111	color=red
+Chr2	2938489	5513430	athChr4	16829326	17361978	color=red
+Chr2	27699248	28313917	athChr2	8867117	8993114	color=red
+Chr2	27699248	28313917	athChr4	13971552	14059864	color=red
+Chr2	27722612	28157123	athChr1	876258	947483	color=red
+Chr2	27793032	28047134	athChr4	1497536	1604508	color=red
+Chr2	29465137	31676671	athChr5	23559474	24462541	color=red
+Chr2	29584144	33074030	athChr1	2105048	2700959	color=red
+Chr2	29954098	30865075	athChr3	16969266	17441243	color=red
+Chr2	29995641	30910996	athChr2	15694200	16007690	color=red
+Chr2	30333509	30739609	athChr5	23933404	24015071	color=red
+Chr2	30346088	32571518	athChr2	11629777	12535399	color=red
+Chr3	43198	3050858	athChr1	2097747	2537931	color=red
+Chr3	78340	3230797	athChr2	11921433	13002563	color=red
+Chr3	774877	2638399	athChr3	16729989	17362118	color=red
+Chr3	1029373	1593777	athChr5	23919597	24063277	color=red
+Chr4	17163908	21926525	athChr2	15119542	16156579	color=red
+Chr4	17345660	21646435	athChr3	2612394	3130891	color=red
+Chr4	18992249	21901907	athChr3	19475159	20041210	color=red
+Chr4	19278230	20134763	athChr3	20438772	20646655	color=red
+Chr4	19278230	21674591	athChr5	386018	1063319	color=red
+Chr4	19680785	20897421	athChr2	11985687	12493285	color=red
+Chr4	21953610	23773684	athChr1	27625149	28027840	color=red
+Chr4	22279364	23707527	athChr1	6276788	6496396	color=red
+Chr4	23141444	23801528	athChr1	25971915	26221825	color=red
+Chr5	42388	2193580	athChr3	22444890	22941451	color=red
+Chr5	80024	2533372	athChr1	5928	422437	color=red
+Chr5	91398	2184896	athChr2	18655939	19272195	color=red
+Chr5	246842	1325170	athChr4	336945	566310	color=red
+Chr5	340433	518736	athChr3	22306488	22395044	color=red
+Chr5	340433	530555	athChr2	18498672	18604751	color=red
+Chr5	29921855	32546325	athChr1	25556426	26637127	color=red
+Chr5	30075250	31856342	athChr1	8897755	9451750	color=red
+Chr5	30419782	31602270	athChr1	4556892	4933515	color=red
+Chr5	30864896	31671263	athChr2	704918	1188545	color=red
+Chr5	31281064	32209727	athChr5	4757972	4968035	color=red
+Chr6	23526840	25573018	athChr1	27654841	28142744	color=red
+Chr6	23619920	25578578	athChr1	6257851	6568597	color=red
+Chr7	976557	1405504	athChr2	8896912	8942689	color=red
+Chr7	976557	1405504	athChr4	14000038	14050335	color=red
+Chr7	1381169	1654418	athChr5	17560179	17721580	color=red
+Chr7	3062322	4024868	athChr3	20496081	20668505	color=red
+Chr7	3107334	3991269	athChr2	16474149	16639308	color=red
+Chr7	3704731	6716677	athChr3	20534615	20910481	color=red
+Chr7	3770508	6782098	athChr2	16521744	17012067	color=red
+Chr7	4244368	6796588	athChr5	1544007	1742028	color=red
+Chr7	10089952	10754061	athChr1	19685745	19761452	color=red
+Chr7	10089952	10761069	athChr3	5179413	5252506	color=red
+Chr7	26192425	26533934	athChr1	9789826	9840124	color=red
+Chr8	23145511	24335517	athChr1	28163650	28586225	color=red
+Chr8	23322677	24356543	athChr1	6662501	6987270	color=red
+Chr9	10736041	13601700	athChr1	11461855	11846347	color=red
+Chr9	13343534	15069439	athChr5	19053628	19171263	color=red
+Chr9	13600295	15069439	athChr4	9771297	9844095	color=red
+Chr9	13831374	15145543	athChr4	9467563	9636873	color=red
+Chr9	30098499	31771630	athChr3	10125659	11137849	color=red
+Chr9	30120258	30817051	athChr1	9215901	9448825	color=red
+Chr9	30120258	31771630	athChr5	15821442	16293513	color=red
+Chr9	30140798	31549415	athChr1	26111809	26626503	color=red
+Chr9	30176757	30751101	athChr5	4805887	4982231	color=red
+Chr9	30199160	30693036	athChr3	46396	101992	color=red
+Chr9	31831927	32410952	athChr5	4341948	4470991	color=red
+
+运行：perl ./circos/circos-0.69-3/bin/circos -conf circos.conf
