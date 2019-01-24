@@ -1,0 +1,124 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+use Getopt::Long;
+
+sub usage {
+	print <<USAGE;
+description:
+	This program ....
+
+options:
+	-help              : print this help info
+	-col        (str)  : exp column of file
+	-method     (str)  : method of cor analysis
+	-adjust     (str)  : adjust for multiple tests
+	-opre       (str)  : output file's prefix
+	-heatmap           : whether to plot heatmap
+
+e.g.:
+    perl $0 var1 var2 -col 2-28 -method pearson -adjust none 
+USAGE
+}
+
+sub checkfile{
+	for my $file(@_){
+		die "Error : File $file doesn't exists!\n" unless (-e $file);
+	}
+}
+
+my($help,$col,$method,$adjust,$opre,$heatmap);
+GetOptions(
+		"help"=>\$help,
+		"col=s"=>\$col,
+		"method=s"=>\$method,
+		"adjust=s"=>\$adjust,
+		"opre=s"=>\$opre,
+		"heatmap"=>\$heatmap
+);
+$method//="pearson";
+$adjust//="none";
+$opre//="corAnalysis";
+my($var1,$var2)=@ARGV;
+
+if ((defined $help) || (@ARGV ne 2)){
+	&usage;
+	print "\nError : Please input two file for correlation analysis!\n";
+	exit 0;
+}
+&checkfile($var1,$var2);
+
+if ((defined $help) || (!defined $col)){
+	&usage;
+	print "\nError : Please defined the exp column of the input file!\n";
+	exit 0;
+}
+my @cols=split "-",$col,2;
+$cols[0]=$cols[0]-1;
+$cols[1]=$cols[1]-1;
+
+open OUT,">$opre.corr_tmp.R" or die "Can't write the file! $!";
+print OUT <<R;
+
+#### the data file must has header
+.libPaths("./R/x86_64-unknown-linux-gnu-library/3.2")
+library("psych")
+library(reshape2)
+data1<-read.table("$var1",sep="\\t",header=T,check.names=F,row.names=1)
+data2<-read.table("$var2",sep="\\t",header=T,check.names=F,row.names=1)
+
+expcol<-c($cols[0]:$cols[1]) ###  this expcol was column of exp
+### filter rows and cols ###
+if(nrow(data1)==1){
+	matrix1<-t(data1[,expcol])
+}else{
+	matrix1<-as.matrix(data1[,expcol])
+	matrix1<-t(matrix1[apply(matrix1,1,sd)!=0,])
+}
+matrix2<-as.matrix(data2[,expcol])
+matrix2<-t(matrix2[apply(matrix2,1,sd)!=0,])
+
+### do cor test ###
+#method:method="pearson" is the default value. The alternatives to be passed to cor are "spearman" and "kendall"
+#adjust:What adjustment for multiple tests should be used? ("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")
+##See p.adjust for details about why to use "holm" rather than "bonferroni")
+cor_result<-corr.test(matrix1,matrix2,method="$method",adjust="$adjust",ci=FALSE)
+r_mt<-cor_result\$r
+p_mt<-cor_result\$p
+rm(cor_result)
+cor.r<-melt(r_mt,value.name = "cor")
+p_value<-melt(p_mt)[,3]
+out<-data.frame(cor.r,p_value)
+
+### output corAnalysis file ####
+write.table(out,file=paste("$opre","xls",sep="."),quote=FALSE,row.names=F,col.names=T,sep="\\t")
+
+R
+
+if(defined $heatmap){
+	print OUT <<R
+### output cor-value and p-value matrix ###
+write.table(p_mt,file=paste("$opre","pvalue.matrix",sep="."),quote=FALSE,row.names=T,col.names=T,sep="\\t")
+write.table(r_mt,file=paste("$opre","cor.matrix",sep="."),quote=FALSE,row.names=T,col.names=T,sep="\\t")
+
+### plot heatmap ###
+library(pheatmap)
+
+p_mt[p_mt<=0.05]<-"*"
+p_mt[p_mt>0.05]<-""
+png(file=paste("$opre","heatmap.png",sep="."),width = 8,height = 12,units = "in",res = 300)
+pheatmap(r_mt,,scale="row",cluster_row=T,cluster_col=T,display_numbers=p_mt,fontsize_number=15,number_color="white")
+dev.off()
+pdf(file=paste("$opre","heatmap.pdf",sep="."),width = 8,height = 12)
+pheatmap(r_mt,,scale="row",cluster_row=T,cluster_col=T,display_numbers=p_mt,fontsize_number=15,number_color="white")
+dev.off()
+png(file=paste("$opre","heatmap_nonCluster.png",sep="."),width = 8,height = 12,units = "in",res = 300)
+pheatmap(r_mt,,scale="row",cluster_row=F,cluster_col=F,display_numbers=p_mt,fontsize_number=15,number_color="white")
+dev.off()
+pdf(file=paste("$opre","heatmap_nonCluster.pdf",sep="."),width = 8,height = 12)
+pheatmap(r_mt,,scale="row",cluster_row=F,cluster_col=F,display_numbers=p_mt,fontsize_number=15,number_color="white")
+dev.off()
+R
+}
+close OUT;
+system("Rscript $opre.corr_tmp.R;rm $opre.corr_tmp.R");
