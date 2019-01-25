@@ -1,0 +1,21 @@
+##sh##
+java -cp ./GSEA/gsea2-2.2.4.jar -Xmx1024m xtools.gsea.Gsea -gmx 
+  ./GSEA/msigdb_v6.0_files/msigdb_v6.0_GMTs/c2.all.v6.0.symbols.gmt -nperm 1000 -collapse false -set_min 15 -set_max 500 -permute gene_set -rpt_label C2_versus_Tg2.kegg.1000 -res ./two/two.txt -cls ./two/all.cls#C2_versus_Tg2 -out ./two
+java -cp ./GSEA/gsea2-2.2.4.jar -Xmx1024m xtools.gsea.Gsea -gmx ./GSEA/msigdb_v6.0_files/msigdb_v6.0_GMTs/c5.all.v6.0.symbols.gmt -nperm 1000 -collapse false -set_min 15 -set_max 500 -permute gene_set -rpt_label C2_versus_Tg2.c5.1000 -res ./two/two.txt -cls ./two/all.cls#C2_versus_Tg2 -out ./two
+
+##two.txt##
+NAME	DESCRIPTION	C2	Tg2
+CORO1B	-	196	220
+PLD3	-	6	0
+ZNF417	-	2	3
+NDUFS1	-	3881	1998
+VAX2	-	161	11
+KIAA1524	-	6	2
+PRDM13	-	30	3
+TM4SF20	-	36	3
+IGFBPL1	-	53	2
+
+##all.cls##
+2 2 1
+#C2 Tg2
+C2 Tg2
