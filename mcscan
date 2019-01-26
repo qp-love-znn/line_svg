@@ -1,0 +1,111 @@
+##ath-vs-wme.blast##
+Chr0_258813_259526      athChr5_2108493_2112256 2.02e-72
+Chr0_258813_259526      athChr5_2108493_2112256 2.08e-69
+Chr0_258813_259526      athChr4_10691674_10695701       3.51e-59
+Chr0_258813_259526      athChr5_18232277_18233521       5.32e-50
+Chr0_258813_259526      athChr3_22329092_22331103       4.41e-20
+Chr0_301272_301643      athChr4_16796256_16799777       1.38e-72
+Chr0_301272_301643      athChr4_16796256_16799777       1.11e-68
+Chr0_301272_301643      athChr4_16796256_16799553       1.11e-68
+Chr0_301272_301643      athChr4_16796432_16799256       1.19e-68
+Chr0_301272_301643      athChr4_16796256_16799553       1.19e-68
+Chr0_319902_320398      athChr5_15524178_15524977       1.50e-24
+Chr0_319902_320398      athChr5_21853397_21854117       7.70e-24
+Chr0_319902_320398      athChr3_512312_513027   4.21e-16
+Chr0_6029352_6029806    athChr3_2501893_2503565 3.29e-44
+Chr0_6029352_6029806    athChr3_2496440_2498095 3.85e-44
+Chr0_6029352_6029806    athChr5_19518770_19520528       5.91e-44
+Chr0_6029352_6029806    athChr3_2499243_2501021 1.16e-41
+Chr0_6029352_6029806    athChr3_4648348_4650319 4.12e-35
+Chr0_393272_393487      athChr5_22686832_22689471       4.94e-21
+Chr0_393272_393487      athChr5_21352399_21355361       4.17e-20
+Chr0_393272_393487      athChr5_22681305_22684129       4.25e-20
+Chr0_393272_393487      athChr5_22686802_22689650       4.50e-20
+Chr0_393272_393487      athChr5_22677451_22680152       4.82e-20
+
+./tanghaibao-mcscan-4cfe0f5/mcl ath-vs-wme.blast --abc --abc-neg-log -abc-tf 'mul(0.4343), ceil(200)' -o  ath-vs-wme.mcl
+./tanghaibao-mcscan-4cfe0f5/mcscan ath-vs-wme
+
+##ath-vs-wme.aligns##
+perl get_aligns.pl ath-vs-wme.aligns | grep -v "#" | sort -k1,1 -k2,2n > ath-vs-wme.aligns.xls
+##get_align##
+#!/usr/bin/env perl
+use strict;
+use warnings;
+#use FindBin qw/$Bin $Script/;
+#use File::Basename qw/basename dirname/;
+#use Getopt::Long;
+#use lib $Bin;
+#use Data::Dumper;
+use utf8;
+
+my $usage =<<USAGE;
+
+    Desc: use for xxx
+
+    perl $0 <> 
+
+
+
+    e.g: perl $0 <> <>
+
+USAGE
+
+die "$usage" if(@ARGV<1); 
+
+my $align = shift;
+
+open ALIGN,$align or die $!;
+my @aligns;
+my $flag = 0;
+my $strand;
+while(<ALIGN>){
+    chomp;
+    if(/Alignment/){
+        $flag = 1;
+        if(@aligns > 0){
+            DealAlign($strand,@aligns);
+            @aligns = ();
+        }
+        my @aa = split/\s+/,$_;
+        $strand = $aa[-1];
+        print "$_\n";
+    }else{
+        next if($flag == 0);
+        push @aligns,$_;
+    }
+}
+close ALIGN;
+DealAlign($strand,@aligns);
+
+
+sub DealAlign{
+    my $strand = shift;
+    my @aligns = @_;
+
+    my @pos1;
+    my @pos2;
+    my $chr1;
+    my $chr2;
+    for my $align(@aligns){
+        my @aa = split/\t/,$align;
+        my @chr1 = split/_/,$aa[1];
+        my @chr2 = split/_/,$aa[2];
+        if(@chr2 > 3){
+            my $cc = shift @chr2;
+            $chr2[0] = "$cc\_$chr2[0]";
+        }
+        $chr1 = $chr1[0];
+        $chr2 = $chr2[0];
+        push @pos1,$chr1[1];
+        push @pos1,$chr1[2];
+        push @pos2,$chr2[1];
+        push @pos2,$chr2[2];
+    }
+    @pos1 = sort {$a<=>$b}@pos1;
+    @pos2 = sort {$a<=>$b}@pos2;
+
+    print "$chr1\t$pos1[0]\t$pos1[-1]\t$chr2\t$pos2[0]\t$pos2[-1]\t$strand\n";   
+
+    return;
+}
